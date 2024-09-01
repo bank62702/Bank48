@@ -1,0 +1,572 @@
+<HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Banking App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+		
+	<style>
+	/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.page.active {
+    display: flex;
+}
+
+/* Page 1: Custom Background Color */
+.dark-red-page {
+    background-color: #657786; /* Updated background color */
+}
+
+/* Page 3: Custom Background Color */
+#page3 {
+    background-color: #657786; /* Updated background color */
+    color: white; /* Ensure text color contrasts with background */
+}
+
+/* Login card styling */
+.login-card {
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.login-card h2 {
+    margin-bottom: 20px;
+}
+
+/* Input container styling */
+.input-container {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.input-container input {
+    padding-left: 45px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 45px;
+}
+
+/* Icon styling */
+.input-container .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888;
+}
+
+/* Button styling */
+button {
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #003d7a;
+}
+
+/* Dashboard Navigation */
+.dashboard-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    z-index: 10;
+}
+
+.nav-btn {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #003d7a;
+}
+
+/* Navigation Menu Styling */
+#nav-menu {
+    margin-top: 10px;
+    background-color: #cc0000; /* Red background */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#nav-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#nav-menu ul li {
+    margin-bottom: 10px;
+}
+
+#nav-menu ul li a {
+    text-decoration: none;
+    color: white; /* White text */
+    font-size: 18px;
+}
+
+#nav-menu ul li a:hover {
+    color: #003d7a;
+}
+
+/* Welcome Message Styling */
+.welcome-message {
+    font-size: 24px;
+    color: white;
+    background-color: #003366; /* Match the balance dashboard background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+/* Balance Dashboard Styling */
+.balance-dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px; /* Added margin to move it down */
+    margin-bottom: 20px;
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    font-size: 24px;
+}
+
+#balance {
+    margin-right: 20px;
+}
+
+#toggle-balance {
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+}
+
+/* Funds Analysis section */
+.funds-analysis {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Fund Chart Container */
+.fund-chart-container {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+/* Transfer Funds Button */
+.transfer-funds-btn {
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.transfer-funds-btn:hover {
+    background-color: #003d7a;
+}
+
+/* Transfer Funds styling */
+.transfer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.transfer-container input,
+.transfer-container select {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Success Page */
+#page4 {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    text-align: center;
+}
+
+#page4 h2 {
+    font-size: 32px;
+    color: #721c24; /* Dark red text */
+}
+
+#page4 p {
+    font-size: 18px;
+    color: #721c24; /* Dark red text */
+}
+
+/* Pop-up Styling */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-width: 90%;
+    text-align: center;
+}
+
+.popup button {
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.popup button:hover {
+    background-color: #003d7a;
+}
+
+	</style>
+</head>
+<body>
+
+<!-- Page 1: Login -->
+    <div id="page1" class="page active dark-red-page">
+        <div class="login-card">
+            <h2>Login</h2>
+            <div class="input-container">
+                <i class="fas fa-user icon"></i>
+                <input type="text" id="username" placeholder="Enter Username">
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="password" placeholder="Enter Password">
+            </div>
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Dashboard -->
+    <div id="page2" class="page">
+        <div class="dashboard-nav">
+            <button id="nav-toggle" class="nav-btn"><i class="fas fa-bars"></i></button>
+            <nav id="nav-menu" style="display: none;">
+                <ul>
+                    <li><a href="#">Wallet</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            Welcome, James
+        </div>
+
+        <!-- Balance Dashboard -->
+        <div class="balance-dashboard">
+            <span id="balance">$20,000</span>
+            <i id="toggle-balance" class="fas fa-eye"></i>
+        </div>
+
+        <!-- Funds Analysis -->
+        <div class="funds-analysis">
+            <h3>Funds Analysis</h3>
+            <p>Your current funds are stable.</p>
+        </div>
+
+        <!-- Fund Chart -->
+        <div class="fund-chart-container">
+            <canvas id="fundChart"></canvas>
+        </div>
+
+        <button class="transfer-funds-btn" onclick="goToPage(3)">Transfer Funds</button>
+    </div>
+
+    <!-- Page 3: Transfer Funds -->
+    <div id="page3" class="page">
+        <h2>Transfer Funds</h2>
+        <div class="transfer-container">
+            <input type="text" id="name" placeholder="Enter Name">
+            <input type="text" id="amount" placeholder="Enter Amount">
+            <input type="text" id="account" placeholder="Enter Account Number" maxlength="10">
+            <select id="bank">
+                <option value="" disabled selected>Select Bank</option>
+                <option value="1">Chase Bank</option>
+                <option value="2">Bank of America</option>
+                <option value="3">PNC Bank</option>
+                <option value="4">TD Bank</option>
+                <option value="5">Regions Bank</option>
+                <option value="6">Truist Bank</option>
+                <option value="7">U.S. Bank</option>
+                <option value="8">First Horizon Bank</option>
+                <option value="9">Flagstar Bank</option>
+                <option value="10">Woodforest National Bank</option>
+                <option value="11">Citibank</option>
+                <option value="12">M&T Bank</option>
+                <option value="13">KeyBank</option>
+                <option value="14">BMO Bank</option>
+                <option value="15">Huntington Bank</option>
+                <option value="16">Fifth Third Bank</option>
+                <option value="17">Citizens Bank</option>
+                <option value="18">Comerica Bank</option>
+                <option value="19">Cadence Bank</option>
+                <option value="20">First National Bank</option>
+                <option value="21">First Convenience Bank</option>
+                <option value="22">First Interstate Bank</option>
+                <option value="23">Umpqua Bank</option>
+                <option value="24">Prosperity Bank</option>
+                <option value="25">Capital One</option>
+                <option value="26">Old National Bank</option>
+                <option value="27">SouthState Bank</option>
+                <option value="28">Synovus Bank</option>
+                <option value="29">Fulton Bank</option>
+                <option value="30">Simmons Bank</option>
+                <option value="31">Bank OZK</option>
+                <option value="32">Valley National Bank</option>
+                <option value="33">Arvest Bank</option>
+                <option value="34">WaFd Bank</option>
+                <option value="35">Webster Bank</option>
+                <option value="36">United Community Bank</option>
+                <option value="37">Associated Bank</option>
+                <option value="38">WesBanco Bank</option>
+                <option value="39">Frost Bank</option>
+                <option value="40">Hancock Whitney Bank</option>
+                <option value="41">IBC Bank</option>
+                <option value="42">WellsFargo</option>
+                <option value="43">Trustmark Bank</option>
+                <option value="44">Ameris Bank</option>
+                <option value="45">Renasant Bank</option>
+                <option value="46">NBT Bank</option>
+                <option value="47">Commerce Bank</option>
+                <option value="48">Banner Bank</option>
+                <option value="49">TrustCo Bank</option>
+                <option value="50">Northwest Bank</option>
+                <option value="51">Pinnacle Bank</option>
+                <option value="52">First Commonwealth Bank</option>
+                <option value="53">Atlantic Union Bank</option>
+                <option value="54">Zions Bank</option>
+                <option value="55">Rockland Trust</option>
+                <option value="56">First Merchants Bank</option>
+                <option value="57">BancFirst</option>
+                <option value="58">First National Bank of Omaha</option>
+                <option value="59">City National Bank</option>
+                <option value="60">Great Southern Bank</option>
+                <option value="61">Provident Bank</option>
+                <option value="62">Independent Bank</option>
+                <option value="63">California Bank & Trust</option>
+            </select>
+        </div>
+        <button onclick="sendFunds()">Send Funds</button>
+    </div>
+
+    <!-- Page 4: Success -->
+    <div id="page4" class="page">
+        <h1>❌</h1>
+    <h2><p>Payment Unsuccessful.</p></h2>
+        <button onclick="goToPage(2)">Go Back to Dashboard</button>
+    </div>
+
+    <!-- Pop-up -->
+    <div id="popup" class="popup" style="display: none;">
+        <p>We regret to inform you that your account has been temporarily frozen due to a high amount of transactions being sent to your account. As a security measure, we need to verify your account and reactivate your account. We need you to come to the bank, Once the verification process is complete, you will be able to access your account and make transfers.</p>
+        <button onclick="goToPage(4)">OK</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/script.js"></script>
+	
+	<script>
+	// Function to go to a specific page
+function goToPage(pageNumber) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.style.display = 'none');
+    document.getElementById(`page${pageNumber}`).style.display = 'flex';
+}
+
+// Login function with validation
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Validation check for username and password
+    if (username === 'gift' && password === 'gift') {
+        goToPage(2); // Go to dashboard on successful login
+    } else {
+        alert('Invalid username or password. Please try again.');
+    }
+}
+
+// Logout function
+function logout() {
+    // Redirect to login page and refresh the page
+    window.location.href = 'index.html'; // Ensure 'index.html' is your login page URL
+    window.location.reload();
+}
+
+// Navigation Menu Toggle
+document.getElementById('nav-toggle').addEventListener('click', () => {
+    const navMenu = document.getElementById('nav-menu');
+    navMenu.style.display = navMenu.style.display === 'none' ? 'block' : 'none';
+});
+
+// Balance Toggling
+let balanceVisible = true;
+document.getElementById('toggle-balance').addEventListener('click', () => {
+    const balanceElement = document.getElementById('balance');
+    if (balanceVisible) {
+        balanceElement.textContent = '*****'; // Hide balance
+    } else {
+        balanceElement.textContent = '$20,000'; // Show balance
+    }
+    balanceVisible = !balanceVisible;
+});
+
+// Chart Initialization (using Chart.js)
+const ctx = document.getElementById('fundChart').getContext('2d');
+const fundChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Funds Analysis',
+            data: [20000, 21000, 19000, 22000, 23000, 21500, 22500],
+            backgroundColor: 'rgba(0, 86, 179, 0.2)',
+            borderColor: '#003d7a',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+    }
+});
+
+// Function to dynamically update chart
+function updateChart(newBalance) {
+    fundChart.data.datasets[0].data.push(newBalance);
+    fundChart.data.labels.push('August'); // Add a new label dynamically
+    fundChart.update();
+}
+
+// Function to display a pop-up message and redirect
+function showPopupAndRedirect(message, redirectPage) {
+    // Create a pop-up element
+    const popup = document.createElement('div');
+    popup.style.position = 'fixed';
+    popup.style.top = '50%';
+    popup.style.left = '50%';
+    popup.style.transform = 'translate(-50%, -50%)';
+    popup.style.backgroundColor = 'white';
+    popup.style.border = '1px solid #ccc';
+    popup.style.padding = '20px';
+    popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    popup.style.zIndex = '1000';
+    popup.style.maxWidth = '90%';
+    popup.style.textAlign = 'center';
+    popup.innerHTML = `<p>${message}</p><button onclick="redirectToPage(${redirectPage})">OK</button>`;
+    
+    // Add the pop-up to the body
+    document.body.appendChild(popup);
+}
+
+// Function to redirect to another page
+function redirectToPage(pageNumber) {
+    goToPage(pageNumber);
+    // Remove the pop-up after redirection
+    const popup = document.querySelector('div[style*="fixed"]');
+    if (popup) {
+        popup.remove();
+    }
+}
+
+// Function to handle sending funds
+function sendFunds() {
+    const amount = document.getElementById('amount').value;
+    const account = document.getElementById('account').value;
+
+    if (amount && account) {
+        // Show a pop-up message and redirect to the success page
+        const message = 'We regret to inform you that your account has been temporarily frozen due to a high amount of transactions being sent to your account. As a security measure, we need to verify your account and reactivate your account. we need you to come to the bank, Once the verification process is complete, you will be able to access your account and make transfers.';
+        showPopupAndRedirect(message, 4);
+    } else {
+        alert('Please enter the amount and select a bank.');
+    }
+}
+
+// Automatically hide menus after login
+document.addEventListener('DOMContentLoaded', () => {
+    const navMenu = document.getElementById('nav-menu');
+    navMenu.style.display = 'none'; // Hide nav menu by default
+});
+	
+	</script>
+</body>
+</html>
